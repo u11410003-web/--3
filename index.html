@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>臺北市立大學地球物理震測實習報告 — 淺層折射震測法 (Seismic Refraction Survey)</title>
+  <meta name="description" content="臺北市立大學地球物理折射震測實習報告：測線 202610_UTELS，第四次測試 (Shot 104，炸點 12m) 完整儀器介紹、科學建模原理、24道實測資料分析、互動式波形走時擬合器與實習心得。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 頁面頂部閱讀進度條 -->
+  <div class="reading-progress-bar" id="readingProgressBar"></div>
+
+  <!-- 頂部浮動導覽列 -->
+  <header class="header-nav">
+    <div class="nav-container">
+      <a href="#hero" class="brand-badge">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-title">
+          <span>北市大地物實習</span>
+          <span>SEISMIC REFRACTION · 2026</span>
+        </div>
+      </a>
+      
+      <nav class="nav-menu">
+        <a href="#instruments" class="nav-link">1. 儀器介紹</a>
+        <a href="#principles" class="nav-link">2. 原理介紹</a>
+        <a href="#data-analysis" class="nav-link">3. 資料分析 (Shot 104)</a>
+        <a href="#interactive-lab" class="nav-link">4. 互動實驗室</a>
+        <a href="#reflections" class="nav-link">5. 心得感想</a>
+        <a href="#submission" class="nav-link">6. 作業繳交與 AI 紀錄</a>
+      </nav>
+      
+      <div class="nav-actions">
+        <button class="btn btn-outline" id="themeToggleBtn" title="切換明暗模式">☀️</button>
+        <button class="btn btn-primary" id="printPdfBtn" title="列印或匯出 PDF 報告">🖨️ 匯出 PDF</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主內容容器 -->
+  <main class="app-container">
+    
+    <!-- Hero 標頭橫幅 -->
+    <section class="hero-banner" id="hero">
+      <div class="hero-content">
+        <div class="hero-pill">
+          <span>📍 地球物理野外探勘實習 · 第四測試小組</span>
+        </div>
+        <h1 class="hero-title">
+          淺層折射震測法<br>
+          <span>地下速度構造科學建模報告</span>
+        </h1>
+        <p class="hero-description">
+          「看不見的地下，我們怎麼知道？」—— 本報告針對臺北市立大學圖書館後方草坪測線 (202610_UTELS) 之實測資料進行分析。本人擔任<strong>第四個測試 (Shot 104 · 炸點座標 12m)</strong> 之實作敲擊與記錄，透過 24 頻道高解析震測系統，探究直達波與臨界折射波傳播機制，推估地下速度與風化層厚度。
+        </p>
+        
+        <div class="hero-meta-grid">
+          <div class="meta-item">
+            <span class="meta-label">測線編號 / 測區</span>
+            <span class="meta-value">202610_UTELS</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">測試序號 / 檔案</span>
+            <span class="meta-value highlight">Shot 04 (104.dat)</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">炸點座標 / 間距</span>
+            <span class="meta-value highlight">X = 12 m (間距 4m)</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">展距 / 受波器間距</span>
+            <span class="meta-value">0 – 46 m (24道 / 2m)</span>
+          </div>
+        </div>
+        
+        <div class="hero-actions">
+          <a href="#interactive-lab" class="btn btn-primary">🔬 進入波形與走時實驗室</a>
+          <a href="#instruments" class="btn btn-outline">📷 儀器與實習照片</a>
+          <a href="#submission" class="btn btn-outline" id="openDeployGuideBtn">🚀 GitHub Pages 部署指引</a>
+        </div>
+      </div>
+      
+      <div class="hero-visual-card">
+        <img src="images/shot104_hammer.jpg" alt="校園淺層折射震測野外實習示意圖" class="hero-visual-img" id="heroConceptImg">
+        <div class="hero-visual-overlay">
+          <div>
+            <div class="visual-caption">校園草坪折射震測現場：敲擊震源、受波器排列與臨界折射頭波示意</div>
+            <div class="visual-badge">SHOT 104 · OFFSET 12m · 24 CHANNELS</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         第一部分：儀器介紹 (可打字編輯、可上傳照片)
+         ===================================================================== -->
+    <!-- =====================================================================
+         第一部分：儀器介紹 (可在 HTML 中直接修改文字與替換相片路徑)
+         ===================================================================== -->
+    <section class="content-section" id="instruments">
+      <div class="section-header">
+        <span class="section-tag">PART 01 / FIELD EQUIPMENT</span>
+        <h2 class="section-title">🛠️ 儀器介紹與觀測系統</h2>
+        <p class="section-subtitle">
+          折射震測需藉由「人工震源、訊號傳感、多道訊號線與數位記錄主機」緊密串接。
+          以下為本次實習所採用之完整野外觀測設備規格與現場實作記錄。
+        </p>
+      </div>
+
+      <!-- 儀器卡片網格 (可在 HTML 中直接修改文字與替換相片) -->
+      <div class="grid-3" id="instrumentsGrid">
+        
+        <!-- 儀器 1: OYO DAS-1 -->
+        <div class="instrument-card">
+          <div class="instrument-media-box">
+            <!-- 【替換圖片：將您的照片放入 images/ 資料夾，修改下方 src="images/檔名.jpg" 即可】 -->
+            <img src="images/shot104_hammer.jpg" alt="OYO DAS-1 數位震測儀" class="instrument-img">
+          </div>
+          <div class="instrument-body">
+            <span class="instrument-category">紀錄主機</span>
+            <!-- 【可在此修改標題】 -->
+            <h3 class="instrument-title-static">OYO DAS-1 高解析數位震測儀</h3>
+            <ul class="spec-list">
+              <li class="spec-item"><span class="spec-key">記錄道數 (Channels)</span><span class="spec-val">24 通道 (可擴充至48/96)</span></li>
+              <li class="spec-item"><span class="spec-key">A/D 類比轉數位</span><span class="spec-val">24-bit 高動態範圍</span></li>
+              <li class="spec-item"><span class="spec-key">取樣頻率 (Sampling)</span><span class="spec-val">0.25 ms (4000 Hz)</span></li>
+              <li class="spec-item"><span class="spec-key">記錄長度 (Length)</span><span class="spec-val">0.50 秒 (500 ms)</span></li>
+              <li class="spec-item"><span class="spec-key">濾波器設置</span><span class="spec-val">Low Cut / High Cut: NO</span></li>
+            </ul>
+            <div class="user-display-box">
+              <div class="display-box-label">現場實作與操作觀察：</div>
+              <!-- 【請在此直接修改您對此儀器的操作心得或筆記】 -->
+              <p class="instrument-note-text">
+                本次實習採用 24 頻道模式。野外主機由記錄員小郭監控，即時確認各道信號雜訊比並進行多次震源疊加 (Stacking=15)，以壓制重慶南路與愛國西路交通低頻震動。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 儀器 2: 敲擊鐵鎚與微動開關 -->
+        <div class="instrument-card">
+          <div class="instrument-media-box">
+            <!-- 【替換圖片：修改下方 src="images/檔名.jpg"】 -->
+            <img src="images/shot104_hammer.jpg" alt="敲擊鐵鎚與擊振鋼板" class="instrument-img">
+          </div>
+          <div class="instrument-body">
+            <span class="instrument-category">人工震源系統</span>
+            <!-- 【可在此修改標題】 -->
+            <h3 class="instrument-title-static">敲擊鐵鎚 (Sledgehammer) 與擊振鋼板</h3>
+            <ul class="spec-list">
+              <li class="spec-item"><span class="spec-key">震源形式</span><span class="spec-val">垂直敲擊人工震源</span></li>
+              <li class="spec-item"><span class="spec-key">鐵鎚重量</span><span class="spec-val">12 磅 (約 5.4 kg)</span></li>
+              <li class="spec-item"><span class="spec-key">底板材質</span><span class="spec-val">高強度圓形淬火鋼盤 (Strike Plate)</span></li>
+              <li class="spec-item"><span class="spec-key">觸發機制 (Trigger)</span><span class="spec-val">鎚頭微動開關 / 壓電感應器</span></li>
+              <li class="spec-item"><span class="spec-key">時間基準 (Time Zero)</span><span class="spec-val">敲擊瞬間自動產生 t = 0 脈衝</span></li>
+            </ul>
+            <div class="user-display-box">
+              <div class="display-box-label">現場實作與操作觀察：</div>
+              <!-- 【請在此直接修改您對此儀器的操作心得或筆記】 -->
+              <p class="instrument-note-text">
+                第四個測試由我親自擔任敲擊測試者！在 12m 測點處擺設擊振鋼板，確保鋼板平貼草坪地面；垂直均勻揮鎚擊中圓盤正中心，觸發開關精準傳送引爆脈衝訊號至 DAS-1 主機。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 儀器 3: 受波器 -->
+        <div class="instrument-card">
+          <div class="instrument-media-box">
+            <!-- 【替換圖片：修改下方 src="images/檔名.jpg"】 -->
+            <img src="images/shot104_hammer.jpg" alt="垂直分量受波器" class="instrument-img">
+          </div>
+          <div class="instrument-body">
+            <span class="instrument-category">感測系統</span>
+            <!-- 【可在此修改標題】 -->
+            <h3 class="instrument-title-static">垂直分量動圈式受波器 (Geophones)</h3>
+            <ul class="spec-list">
+              <li class="spec-item"><span class="spec-key">感測器數量</span><span class="spec-val">24 支 (Geophones #1 ~ #24)</span></li>
+              <li class="spec-item"><span class="spec-key">自然頻率 (fn)</span><span class="spec-val">10 Hz / 14 Hz 高靈敏度</span></li>
+              <li class="spec-item"><span class="spec-key">受測分量</span><span class="spec-val">垂直分量 (Z分量壓縮 P 波)</span></li>
+              <li class="spec-item"><span class="spec-key">測站間距</span><span class="spec-val">2.0 公尺 (涵蓋 0m 至 46m)</span></li>
+              <li class="spec-item"><span class="spec-key">地面耦合 (Coupling)</span><span class="spec-val">直立垂直插入土層緊密固定</span></li>
+            </ul>
+            <div class="user-display-box">
+              <div class="display-box-label">現場實作與操作觀察：</div>
+              <!-- 【請在此直接修改您對此儀器的操作心得或筆記】 -->
+              <p class="instrument-note-text">
+                受波器必須垂直緊密插在草皮下方堅實土層中，若有傾斜或鬆動會產生高頻共振與阻抗失配，導致波形初至模糊。全組同學分工逐點精確校正間距。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 儀器 4: 多芯傳輸電纜 -->
+        <div class="instrument-card">
+          <div class="instrument-media-box">
+            <!-- 【替換圖片：修改下方 src="images/檔名.jpg"】 -->
+            <img src="images/survey_aerial_map.png" alt="24道多芯訊號傳輸電纜" class="instrument-img">
+          </div>
+          <div class="instrument-body">
+            <span class="instrument-category">傳輸與佈線</span>
+            <!-- 【可在此修改標題】 -->
+            <h3 class="instrument-title-static">24道多芯訊號傳輸電纜 (Spread Cable)</h3>
+            <ul class="spec-list">
+              <li class="spec-item"><span class="spec-key">接頭形式</span><span class="spec-val">24 個 Takeout 防水航太插座</span></li>
+              <li class="spec-item"><span class="spec-key">電纜分段</span><span class="spec-val">每 2 公尺配置一組輸出接頭</span></li>
+              <li class="spec-item"><span class="spec-key">線路屏蔽</span><span class="spec-val">雙層編織金屬遮蔽防雜訊</span></li>
+              <li class="spec-item"><span class="spec-key">連接切換</span><span class="spec-val">DAS-1 專用快速分線接頭</span></li>
+            </ul>
+            <div class="user-display-box">
+              <div class="display-box-label">現場實作與操作觀察：</div>
+              <!-- 【請在此直接修改您對此儀器的操作心得或筆記】 -->
+              <p class="instrument-note-text">
+                沿著皮尺從測線 0m (北方) 拉至 46m (南方)，小心將各受波器的彈簧夾 (KCK clip) 正負極正確夾至電纜分線頭，避免極性反轉或鄰道串音。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 儀器 5: 測量與野外記錄 -->
+        <div class="instrument-card">
+          <div class="instrument-media-box">
+            <!-- 【替換圖片：修改下方 src="images/檔名.jpg"】 -->
+            <img src="images/survey_aerial_map.png" alt="野外觀測紀錄系統" class="instrument-img">
+          </div>
+          <div class="instrument-body">
+            <span class="instrument-category">空間定位與記錄</span>
+            <!-- 【可在此修改標題】 -->
+            <h3 class="instrument-title-static">50m 測距皮尺與 SSS 野外觀測紀錄表</h3>
+            <ul class="spec-list">
+              <li class="spec-item"><span class="spec-key">測線名稱</span><span class="spec-val">202610_UTELS</span></li>
+              <li class="spec-item"><span class="spec-key">測線展距</span><span class="spec-val">0 – 46 m (北向南)</span></li>
+              <li class="spec-item"><span class="spec-key">測區環境</span><span class="spec-val">北市大圖書館後方操場草坪</span></li>
+              <li class="spec-item"><span class="spec-key">震源間距</span><span class="spec-val">每 4 公尺一砲 (共 12 砲點)</span></li>
+            </ul>
+            <div class="user-display-box">
+              <div class="display-box-label">現場實作與操作觀察：</div>
+              <!-- 【請在此直接修改您對此儀器的操作心得或筆記】 -->
+              <p class="instrument-note-text">
+                皮尺固定在測線兩端以確保幾何座標精確無誤。紀錄紙上詳細登記了 12 砲之檔案編號 (101~112) 與炸點座標；第四個測試精確對應 104.dat 與 12m 炸點。
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         第二部分：原理介紹 (理論推導、科學建模歷程、公式)
+         ===================================================================== -->
+    <section class="content-section" id="principles">
+      <div class="section-header">
+        <span class="section-tag">PART 02 / PHYSICAL PRINCIPLES & MODELING</span>
+        <h2 class="section-title">📐 原理介紹：看不見的地下，我們怎麼知道？</h2>
+        <p class="section-subtitle">
+          依據課堂探究歷程（參考：<a href="https://oceanicdayi.github.io/2026_Utaipei_Geophysics_0909/seismic-inquiry/" target="_blank" style="color:var(--accent-cyan);text-decoration:underline;">北市大地球物理探究課程</a>），震測不是直接「看見」地下，而是透過波動傳播的空間與時間證據，逐步建立並檢驗地下速度結構模型。
+        </p>
+      </div>
+
+      <!-- 科學建模六大歷程 -->
+      <div class="card" style="margin-bottom:2rem;">
+        <h3 style="font-size:1.15rem;margin-bottom:1rem;color:var(--accent-emerald);">🔬 科學建模的六個關鍵探究歷程</h3>
+        <div class="step-flow">
+          <div class="step-flow-item">
+            <div class="step-num">1</div>
+            <div class="step-title">提出問題</div>
+            <div class="step-desc">地表看不見地下，如何得知深度與地層速度？</div>
+          </div>
+          <div class="step-flow-item">
+            <div class="step-num">2</div>
+            <div class="step-title">設計觀測</div>
+            <div class="step-desc">鐵鎚震源＋24 道檢波器，由北向南精準排列。</div>
+          </div>
+          <div class="step-flow-item">
+            <div class="step-num">3</div>
+            <div class="step-title">取得證據</div>
+            <div class="step-desc">Trigger 定義 t=0，判讀各道初至到時與距離。</div>
+          </div>
+          <div class="step-flow-item">
+            <div class="step-num">4</div>
+            <div class="step-title">找出規律</div>
+            <div class="step-desc">繪製 T-X 走時曲線，發現斜率在特定距離發生轉折。</div>
+          </div>
+          <div class="step-flow-item">
+            <div class="step-num">5</div>
+            <div class="step-title">建立模型</div>
+            <div class="step-desc">利用司乃耳折射理論，計算速度 V1、V2 與厚度 h。</div>
+          </div>
+          <div class="step-flow-item">
+            <div class="step-num">6</div>
+            <div class="step-title">檢驗修正</div>
+            <div class="step-desc">比對多震源資料與地質鑽孔，確認模型的可靠度。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 原理分類頁籤 -->
+      <div class="card">
+        <div class="theory-tabs">
+          <button class="theory-tab-btn active" data-target="pane-waves">1. 地震波分類與傳播</button>
+          <button class="theory-tab-btn" data-target="pane-snell">2. 司乃耳定律與臨界折射</button>
+          <button class="theory-tab-btn" data-target="pane-equations">3. 走時方程式與截距法推導</button>
+          <button class="theory-tab-btn" data-target="pane-limitations">4. 基本假設與盲層限制</button>
+        </div>
+
+        <!-- 頁籤 1 -->
+        <div class="theory-pane active" id="pane-waves">
+          <h3 style="margin-bottom:0.75rem;color:var(--accent-cyan);">地震波傳播機制與初至波 (First Arrival)</h3>
+          <p style="margin-bottom:1rem;color:var(--text-muted);">
+            當鐵鎚猛烈敲擊地表鋼板時，會在介質中激發多種波動形式：
+          </p>
+          <div class="grid-3">
+            <div style="background:var(--bg-tertiary);padding:1.25rem;border-radius:var(--radius-md);border:1px solid var(--border-color);">
+              <h4 style="color:var(--accent-emerald);margin-bottom:0.5rem;">壓縮波 (P-wave / 縱波)</h4>
+              <p style="font-size:0.875rem;color:var(--text-muted);">
+                質點振動方向與波傳播方向平行。傳播速度最快，永遠最先到達受波器。在折射震測中，<strong>我們只拾取 P 波的最先偏折點作為「初至波 (First Break)」</strong>，以確保不受後續波形干擾。
+              </p>
+            </div>
+            <div style="background:var(--bg-tertiary);padding:1.25rem;border-radius:var(--radius-md);border:1px solid var(--border-color);">
+              <h4 style="color:var(--accent-amber);margin-bottom:0.5rem;">剪力波 (S-wave / 橫波)</h4>
+              <p style="font-size:0.875rem;color:var(--text-muted);">
+                質點振動方向與波行進方向垂直，速度約為 P 波的 0.5~0.6 倍，且無法在流體中傳遞。到達時間晚於初至 P 波，常與地表波混雜。
+              </p>
+            </div>
+            <div style="background:var(--bg-tertiary);padding:1.25rem;border-radius:var(--radius-md);border:1px solid var(--border-color);">
+              <h4 style="color:var(--accent-rose);margin-bottom:0.5rem;">表面波 (Rayleigh / 地表滾波)</h4>
+              <p style="font-size:0.875rem;color:var(--text-muted);">
+                沿自由地表傳播，能量衰減慢、振幅極大但速度最慢，頻率通常較低 (10~25 Hz)。在折射震測中被視為干擾訊號 (Ground Roll)。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 頁籤 2 -->
+        <div class="theory-pane" id="pane-snell">
+          <h3 style="margin-bottom:0.75rem;color:var(--accent-cyan);">司乃耳定律 (Snell's Law) 與臨界角折射</h3>
+          <p style="color:var(--text-muted);margin-bottom:1rem;">
+            地震波通過兩個速度相異的地層界面時，其入射角 $\theta_1$ 與折射角 $\theta_2$ 遵循波動光學之司乃耳定律：
+          </p>
+          <div class="formula-card">
+            <div class="formula-main">sin θ₁ / V₁ = sin θ₂ / V₂</div>
+            <div class="formula-explain">其中 V₁ 為表層速度，V₂ 為下層高速介質速度（前提條件：V₂ > V₁）。</div>
+          </div>
+          <p style="color:var(--text-muted);margin-top:1rem;">
+            當入射角增大至某個特定角度時，折射角達到 90°（$\theta_2 = 90^\circ, \sin\theta_2 = 1$），此特定入射角即稱為<strong>臨界角 (Critical Angle, $\theta_c$)</strong>：
+          </p>
+          <div class="formula-card">
+            <div class="formula-main">θ_c = arcsin(V₁ / V₂)</div>
+            <div class="formula-explain">
+              當波以臨界角入射時，波將沿著地層界面以高速 V₂ 傳播，並在傳播過程中不斷以臨界角 $\theta_c$ 向地表輻射能量，形成<strong>頭波 (Head Wave / 側波)</strong>！這正是遠端受波器能夠比直達波更早接收到訊號的物理本質。
+            </div>
+          </div>
+        </div>
+
+        <!-- 頁籤 3 -->
+        <div class="theory-pane" id="pane-equations">
+          <h3 style="margin-bottom:0.75rem;color:var(--accent-cyan);">走時方程式推導與深度計算公式</h3>
+          <p style="color:var(--text-muted);margin-bottom:1rem;">
+            折射震測透過分析地表受波器測得的「距離 (x) 與走時 (T)」關係，分別建立兩種波的走時直線：
+          </p>
+          
+          <div class="grid-2">
+            <div class="formula-card">
+              <div style="font-weight:700;color:var(--accent-cyan);margin-bottom:0.25rem;">1. 直達波 (Direct Wave) 走時方程式</div>
+              <div class="formula-main">T_direct = x / V₁</div>
+              <div class="formula-explain">
+                波直接沿地表傳播，走時曲線通過座標原點 (0,0)，其斜率為 <strong>1 / V₁</strong>。
+              </div>
+            </div>
+
+            <div class="formula-card">
+              <div style="font-weight:700;color:var(--accent-amber);margin-bottom:0.25rem;">2. 臨界折射波 (Refracted Wave) 走時方程式</div>
+              <div class="formula-main">T_refract = (x / V₂) + t_i</div>
+              <div class="formula-explain">
+                波下行以 V₁ 入射、在界面以 V₂ 行進、再上行輻射至地表。走時曲線斜率為 <strong>1 / V₂</strong>，Y 軸截距為 <strong>t_i (Intercept Time)</strong>。
+              </div>
+            </div>
+          </div>
+
+          <div class="formula-card" style="border-left-color:var(--accent-emerald);">
+            <div style="font-weight:700;color:var(--accent-emerald);margin-bottom:0.25rem;">3. 截距時間法 (Intercept-Time Method) 地層深度公式</div>
+            <div class="formula-main">h = (t_i / 2) · [ (V₁ · V₂) / √(V₂² - V₁²) ]</div>
+            <div class="formula-explain">
+              其中截距時間 $t_i = 2h \cos(\theta_c) / V_1$。只要由走時曲線圖外推求得 $t_i$ 並由兩線斜率求出 $V_1$ 與 $V_2$，便能精確解出界面深度 $h$。
+            </div>
+          </div>
+
+          <div class="formula-card" style="border-left-color:var(--accent-purple);">
+            <div style="font-weight:700;color:var(--accent-purple);margin-bottom:0.25rem;">4. 交錯距離法 (Crossover Distance Method)</div>
+            <div class="formula-main">X_co = 2h · √[ (V₂ + V₁) / (V₂ - V₁) ]   ⇒   h = (X_co / 2) · √[ (V₂ - V₁) / (V₂ + V₁) ]</div>
+            <div class="formula-explain">
+              交錯距離 $X_{co}$ 為直達波與折射波走時相等（折射波反超直達波）之距離點。在此距離之外，折射波率先抵達，成為初至波！
+            </div>
+          </div>
+        </div>
+
+        <!-- 頁籤 4 -->
+        <div class="theory-pane" id="pane-limitations">
+          <h3 style="margin-bottom:0.75rem;color:var(--accent-cyan);">折射震測的基本假設與地質限制</h3>
+          <p style="color:var(--text-muted);margin-bottom:1rem;">
+            折射震測法在工程地質應用上極具成效，但在解釋模型時必須充分考量下列假設與限制：
+          </p>
+          <ul style="padding-left:1.5rem;color:var(--text-muted);line-height:1.8;font-size:0.95rem;">
+            <li><strong>速度遞增原則 ($V_2 > V_1$)：</strong>臨界折射波必須在下層速度大於上層速度時才能形成。若下層速度較慢，折射波將偏向法線向下偏折，永遠無法返回地表。</li>
+            <li><strong>速度倒轉層 (Velocity Reversal / 低速夾層)：</strong>若地下存在含水飽和夾層或軟弱泥層導致波速變慢，折射震測無法測得該層的存在，會導致計算出的下伏基盤深度偏大。</li>
+            <li><strong>盲層 (Hidden Layer / 薄層效應)：</strong>若中層厚度過薄或與上下層速度差異不足，該層的折射波在走時圖上永遠不會超前成為「第一抵達者」，導致資料分析時漏失該層資訊。</li>
+            <li><strong>橫向均質性與傾斜地層：</strong>單一砲點僅能求得視速度 (Apparent Velocity)；本實驗共布設 12 砲，可透過雙向逆向打砲 (Forward & Reverse shooting) 修正傾斜界面 (Dipping interface) 之真速度與真傾角。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         第三部分：資料分析 (第四個測試 Shot 104)
+         ===================================================================== -->
+    <section class="content-section" id="data-analysis">
+      <div class="section-header">
+        <span class="section-tag">PART 03 / SHOT 104 DATA ANALYSIS</span>
+        <h2 class="section-title">📊 資料分析：第四個測試 (Shot 104 · 炸點 12m)</h2>
+        <p class="section-subtitle">
+          根據野外實習紀錄紙，第四個測試對應檔案 <strong>104.dat</strong>，炸點位於 <strong>X = 12 m</strong> (即第 7 頻道受波器處)。
+          測線北向展距 0~10m (共 6 道)，南向展距 14~46m (共 17 道)，提供了絕佳的雙向傳播與長測段速度折射分析條件。
+        </p>
+      </div>
+
+      <!-- 測試高亮橫幅 -->
+      <div class="shot-highlight-banner">
+        <div class="shot-badge-large">
+          <div class="shot-number-circle">04</div>
+          <div class="shot-info-text">
+            <h3>第四個測試：Shot 104 實測分析成果</h3>
+            <p>紀錄檔名：104.dat ｜ 震源位置：X = 12.0 m (CH 07) ｜ 總道數：24 道 ｜ 測點範圍：0m – 46m</p>
+          </div>
+        </div>
+        
+        <div class="shot-params-chips">
+          <div class="param-chip">表層速度 V₁: <strong>358 m/s</strong></div>
+          <div class="param-chip">基底速度 V₂: <strong>780 m/s</strong></div>
+          <div class="param-chip">界面深度 h: <strong>3.83 m</strong></div>
+          <div class="param-chip">截距時間 ti: <strong>19.01 ms</strong></div>
+          <div class="param-chip">交錯距離 Xco: <strong>13.5 m</strong></div>
+          <div class="param-chip">臨界角 θc: <strong>27.3°</strong></div>
+        </div>
+      </div>
+
+      <!-- 測線位置空照圖與地質背景 -->
+      <div class="grid-2" style="margin-bottom:2rem;">
+        <div class="card">
+          <h3 style="font-size:1.15rem;margin-bottom:0.75rem;color:var(--accent-cyan);">🗺️ 測線空間佈設與航照定位</h3>
+          <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:1rem;">
+            測線位於臺北市立大學圖書館後方操場草坪，由北向南布設（0m 至 46m，紅線所示）。第 4 砲點 (12m) 位於圖書館西北角花台旁草坪，地勢平坦。
+          </p>
+          <div style="border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border-color);height:260px;">
+            <img src="images/survey_aerial_map.png" alt="北市大圖書館後方折射震測測線空照圖" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size:1.15rem;margin-bottom:0.75rem;color:var(--accent-emerald);">🏛️ 臺北盆地工程地質與地層解釋</h3>
+          <p style="font-size:0.875rem;color:var(--text-muted);line-height:1.7;">
+            根據本測線分析所得之二層速度模型：
+          </p>
+          <ul style="padding-left:1.25rem;font-size:0.875rem;color:var(--text-muted);line-height:1.8;margin-top:0.5rem;">
+            <li><strong style="color:var(--accent-cyan);">第一層 ($V_1 \approx 358\text{ m/s}$, 厚度 $h \approx 3.83\text{ m}$)：</strong>對應校園表層人工整地回填土、植被草皮及未受壓密的乾燥砂質黏土層。因未飽和且孔隙大，P 波速度較低，為典型的淺部風化表土層。</li>
+            <li><strong style="color:var(--accent-amber);">第二層 ($V_2 \approx 780\text{ m/s}$)：</strong>對應臺北盆地上部全新世<strong>松山層 (Songshan Formation)</strong> 或早期沉積之緊密粉砂質黏土與地下水飽和礫石夾層。波速顯著躍升超過兩倍，顯示地盤承載力明顯提升。</li>
+            <li><strong>工程應用意義：</strong>此 3.8 公尺之界面深具工程意涵，代表淺層基礎開挖或綠化覆土的有效風化層邊界。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 24 道初至時間資料表 -->
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+          <div>
+            <h3 style="font-size:1.15rem;color:var(--accent-cyan);">📋 Shot 104 全部 24 頻道初至時間 (First Break Picking Table)</h3>
+            <p style="font-size:0.85rem;color:var(--text-muted);">
+              震源位於 12m (CH07)。向北側傳播 (CH01~CH06) 全為直達波；向南側長展距傳播 (CH08~CH24) 在 Offset ≥ 14m 後顯現清晰的臨界折射波。
+            </p>
+          </div>
+          <button class="btn btn-outline" onclick="exportTableToCSV()" style="font-size:0.8rem;">📥 匯出 CSV 數據</button>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>頻道 (Channel)</th>
+                <th>測站座標 (X)</th>
+                <th>震源距 (Offset)</th>
+                <th>實測到時 (T_obs)</th>
+                <th>理論到時 (T_calc)</th>
+                <th>殘差 (Residual)</th>
+                <th>波形分類</th>
+              </tr>
+            </thead>
+            <tbody id="dataTableBody">
+              <!-- 由 app.js 動態渲染 24 道 -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         第四部分：互動實驗室 (真實波形圖、走時擬合器、地下剖面)
+         ===================================================================== -->
+    <section class="content-section" id="interactive-lab">
+      <div class="section-header">
+        <span class="section-tag">PART 04 / INTERACTIVE SEISMIC LAB</span>
+        <h2 class="section-title">🔬 互動實驗室：實測波形檢視與速度建模擬合器</h2>
+        <p class="section-subtitle">
+          此互動實驗室整合了 <strong>Shot 104 真實 24 頻道波形</strong>、<strong>走時曲線擬合圖</strong> 與 <strong>即時地下二層構造剖面</strong>。
+          您可以拖動右側面板的 $V_1, V_2, h$ 滑桿，即時觀察理論走時曲線與地下臨界射線的連動變化！
+        </p>
+      </div>
+
+      <div class="lab-container">
+        <!-- 畫布展示區 -->
+        <div class="lab-viewports">
+          <!-- 畫布 1：實測 24 頻道真實地震波形圖 -->
+          <div class="canvas-panel">
+            <div class="canvas-header">
+              <div class="canvas-title">
+                <span>📈 實測 24 道真實地震波形圖 (Wiggle-Trace Variable Area)</span>
+              </div>
+              <div class="canvas-tools">
+                <span style="font-size:0.8rem;color:var(--text-dim);">時間尺度: 0 ~ 80 ms · 疊加數=15</span>
+              </div>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="wiggleCanvas" data-height="400"></canvas>
+            </div>
+          </div>
+
+          <!-- 畫布 2：走時擬合曲線圖 (T-X Plot) -->
+          <div class="canvas-panel">
+            <div class="canvas-header">
+              <div class="canvas-title">
+                <span>⚡ 走時曲線圖 (T-X Plot) 與直達波／折射波回歸線</span>
+              </div>
+              <div class="canvas-tools">
+                <span style="font-size:0.8rem;color:var(--accent-emerald);">● 觀測點與理論擬合線</span>
+              </div>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="travelTimeCanvas" data-height="360"></canvas>
+            </div>
+          </div>
+
+          <!-- 畫布 3：地下二層速度構造剖面圖 -->
+          <div class="canvas-panel">
+            <div class="canvas-header">
+              <div class="canvas-title">
+                <span>🌍 地下二層速度結構與臨界折射波傳播剖面</span>
+              </div>
+              <div class="canvas-tools">
+                <span style="font-size:0.8rem;color:var(--accent-amber);">即時波線追蹤 (Ray Paths)</span>
+              </div>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="subsurfaceCanvas" data-height="340"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- 側邊動態控制面板 -->
+        <div class="control-panel">
+          <h3 style="font-size:1.15rem;color:var(--accent-cyan);border-bottom:1px solid var(--border-color);padding-bottom:0.75rem;">
+            ⚙️ 速度與深度建模控制
+          </h3>
+          
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>表層波速 V₁ (直達波)</span>
+              <span class="control-value-badge" id="v1ValDisplay">358 m/s</span>
+            </div>
+            <input type="range" id="v1Slider" min="200" max="550" step="2" value="358">
+            <small style="font-size:0.72rem;color:var(--text-dim);">影響直達波斜率 (1/V₁)</small>
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>基底波速 V₂ (折射波)</span>
+              <span class="control-value-badge" id="v2ValDisplay" style="color:var(--accent-amber);">780 m/s</span>
+            </div>
+            <input type="range" id="v2Slider" min="500" max="1400" step="10" value="780">
+            <small style="font-size:0.72rem;color:var(--text-dim);">影響折射波斜率 (1/V₂)，需大於 V₁</small>
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>界面深度 h (厚度)</span>
+              <span class="control-value-badge" id="hValDisplay" style="color:var(--accent-emerald);">3.83 m</span>
+            </div>
+            <input type="range" id="hSlider" min="1.0" max="8.0" step="0.05" value="3.83">
+            <small style="font-size:0.72rem;color:var(--text-dim);">影響截距時間 ti 與交錯距離 Xco</small>
+          </div>
+
+          <button class="btn btn-outline" id="autoFitModelBtn" style="width:100%;justify-content:center;">
+            🔄 恢復實測最佳回歸值
+          </button>
+
+          <!-- 衍生參數即時計算結果看板 -->
+          <div class="output-stats-card">
+            <div style="font-size:0.8rem;font-weight:700;color:var(--accent-cyan);text-transform:uppercase;margin-bottom:0.5rem;">
+              即時衍生計算指標
+            </div>
+            <div class="stat-row">
+              <span class="stat-title">截距時間 (ti):</span>
+              <span class="stat-result" id="statTi">19.01 ms</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-title">交錯距離 (Xco):</span>
+              <span class="stat-result" id="statXco">13.50 m</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-title">臨界折射角 (θc):</span>
+              <span class="stat-result" id="statThetac">27.3°</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-title">臨界距離 (Xc):</span>
+              <span class="stat-result" id="statXc">3.96 m</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         第五部分：心得感想 (可在 HTML 中直接修改文字與替換相片路徑)
+         ===================================================================== -->
+    <section class="content-section" id="reflections">
+      <div class="section-header">
+        <span class="section-tag">PART 05 / STUDENT REFLECTION & JOURNAL</span>
+        <h2 class="section-title">✍️ 心得感想與野外實習影像紀錄</h2>
+        <p class="section-subtitle">
+          記錄野外實作體驗、敲擊鐵鎚時的物理反思、雜訊干擾排除及科學建模收穫。
+        </p>
+      </div>
+
+      <!-- 心得感想內容區塊 (可在 HTML 中直接修改文字) -->
+      <div class="reflection-article-card">
+        <div class="article-header">
+          <div class="article-meta">
+            <span class="author-badge">實作者：第四個測試者 (Shot 104 · 12m 敲擊)</span>
+            <span class="date-badge">實習日期：2026 年 10 月 7 日</span>
+          </div>
+        </div>
+
+        <!-- 【心得感想填寫區：請直接在下方 <p> 標籤中修改或增加您的個人心得】 -->
+        <div class="article-body">
+          <h3 class="journal-subhead">一、 敲擊震源與野外體能實踐</h3>
+          <p>
+            在本次實習中，我有幸擔任「第四個測試 (Shot 104，炸點位於 12m)」的操作敲擊者。站在圖書館後方草坪上，雙手握緊 12 磅鐵鎚準備下擊時，深刻體會到人工震源的嚴謹性：揮鎚不僅需要充足的臂力，更必須維持精準垂直的打擊軌道，才能將動能最大化轉換為垂直壓縮的 P 波，並避免底板橫向滑動產生複雜的剪力雜波。
+          </p>
+
+          <h3 class="journal-subhead">二、 絕對時間錨定與 Trigger 機制</h3>
+          <p>
+            敲擊瞬間，安裝於鐵鎚頭部的微動觸發開關（Trigger switch）受到接觸衝擊閉合，即時向 DAS-1 數位主機送出電脈衝，將敲擊時刻定義為絕對零點 $t = 0$。在課堂上這只是一個抽象的物理符號，但在現場看到螢幕上的 24 道波形以這瞬間為起點同步開始計時，真切感受到「沒有精確的時間基準，一切距離與走時計算皆無法成立」的科學真理。
+          </p>
+
+          <h3 class="journal-subhead">三、 野外環境雜訊排除與 Stacking（多次疊加）技術</h3>
+          <p>
+            由於測線緊鄰市區要道（重慶南路與愛國西路），公車與車輛行經時會在地面引起顯著的低頻滾波（Ground roll）與隨機震動。在操作過程中，我們透過重複在同一炸點敲擊並進行多次數位疊加（Stacking = 15 次），利用非同相環境隨機雜訊互相抵消、同相有效地震訊號線性增強的原理，成功讓遠道受波器微弱的頭波訊號清晰浮現，體會到信噪比（SNR）在地球物理探勘中的關鍵價值。
+          </p>
+
+          <h3 class="journal-subhead">四、 資料分析與地質速度建模印證</h3>
+          <p>
+            回到室內進行 104.dat 資料處理時，將 24 道初至時間繪製成 T-X 走時曲線，直達波與臨界折射波的交錯特徵令人驚嘆！在近距離處波速為 $358\text{ m/s}$，如實反映了校園草坪鬆散、多孔隙之人工回填土層；而當距離超過 $14\text{ m}$ 後，折射波以 $780\text{ m/s}$ 的高速度反超成為初至波。透過截距時間法推算出第一層風化土厚度約 $3.83\text{ 公尺}$，與臺北盆地松山層表層工程地質條件完全吻合。
+          </p>
+
+          <h3 class="journal-subhead">五、 探究總結：看不見的地下，我們怎麼知道？</h3>
+          <p>
+            整個實習不是單純的儀器操作，而是一場標準的科學建模歷程。我們雖然無法肉眼透視地底，但藉由「激發訊號 $\to$ 記錄到時 $\to$ 幾何走時擬合 $\to$ 解算地下速度與邊界」，以扎實的觀測證據建立起對未知的地下構造認知。這次實習將課本上的波動方程式化為手中震動的脈衝與具體數據，獲益良多！
+          </p>
+        </div>
+      </div>
+
+      <!-- 實習相片展示牆 (可在 HTML 中直接修改圖片路徑與說明) -->
+      <div class="gallery-section-header">
+        <div>
+          <h3 style="font-size:1.2rem;font-weight:700;">📸 實習現場照片展示牆</h3>
+          <p style="font-size:0.85rem;color:var(--text-muted);">
+            野外施測現場實拍影像記錄（可在前端 HTML 程式碼中直接替換圖片路徑與相片說明文字）。
+          </p>
+        </div>
+      </div>
+
+      <!-- 【照片展示牆：請將您的現場照片放入 images/ 資料夾，並於下方修改 src 與 figcaption】 -->
+      <div class="photo-gallery-grid" id="photoGalleryGrid">
+        
+        <!-- 相片 1 -->
+        <figure class="gallery-card">
+          <div class="gallery-img-container">
+            <!-- 【修改此處 src="images/您的照片1.jpg"】 -->
+            <img src="images/shot104_hammer.jpg" alt="在 12m 炸點處操作鐵鎚敲擊" class="gallery-img">
+          </div>
+          <!-- 【修改此處相片說明】 -->
+          <figcaption class="gallery-caption-static">
+            圖一：在 12m 炸點處（CH07 旁）親自操作 12 磅鐵鎚進行敲擊與微動開關觸發測試。
+          </figcaption>
+        </figure>
+
+        <!-- 相片 2 -->
+        <figure class="gallery-card">
+          <div class="gallery-img-container">
+            <!-- 【修改此處 src="images/您的照片2.jpg"】 -->
+            <img src="images/survey_aerial_map.png" alt="北市大圖書館後方測線空照定位" class="gallery-img">
+          </div>
+          <!-- 【修改此處相片說明】 -->
+          <figcaption class="gallery-caption-static">
+            圖二：北市大圖書館後方 0-46m 測線俯瞰與周邊環境標定。
+          </figcaption>
+        </figure>
+
+        <!-- 相片 3 (預留位置：可放入組員合照或檢波器特寫) -->
+        <figure class="gallery-card">
+          <div class="gallery-img-container">
+            <!-- 【修改此處 src="images/您的照片3.jpg"】 -->
+            <img src="images/shot104_hammer.jpg" alt="24道受波器排列與多芯電纜佈設" class="gallery-img">
+          </div>
+          <!-- 【修改此處相片說明】 -->
+          <figcaption class="gallery-caption-static">
+            圖三：全組 20 人合作依 2m 間距逐點校正並插設垂直動圈式受波器。
+          </figcaption>
+        </figure>
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         第六部分：作業繳交資訊與 AI 對話內容
+         ===================================================================== -->
+    <section class="content-section" id="submission">
+      <div class="section-header">
+        <span class="section-tag">PART 06 / SUBMISSION & AI TRANSCRIPT</span>
+        <h2 class="section-title">🚀 作業繳交網址與 AI 協同對話紀錄</h2>
+        <p class="section-subtitle">
+          本項次提供 GitHub Pages 部屬網址輸入儲存，並完整收錄本報告在 AI Pair Programming 過程中之提詞、原始數據抽取與科學建模推導歷程。
+        </p>
+      </div>
+
+      <!-- GitHub Pages 網址設定區塊 -->
+      <div class="submission-card">
+        <h3 style="font-size:1.25rem;color:var(--accent-emerald);margin-bottom:0.5rem;">
+          🌐 您的 GitHub Pages 作業發佈網址 (作業繳交必填)
+        </h3>
+        <p style="font-size:0.9rem;color:var(--text-muted);">
+          當您將本專案上傳至您的 GitHub 帳號並於 Settings -> Pages 啟用後，請將產生的網頁連結貼於下方：
+        </p>
+        
+        <div class="link-input-group">
+          <input type="url" class="url-input" id="githubPagesUrlInput" placeholder="https://<您的GitHub帳號>.github.io/<倉庫名稱>/" title="輸入您的 GitHub Pages 網址">
+          <button class="btn btn-primary" id="copyUrlBtn">📋 複製網址</button>
+        </div>
+        
+        <div id="urlValidationPreview" style="margin-top:0.75rem;font-size:0.85rem;"></div>
+      </div>
+
+      <!-- 完整 AI 對話紀錄終端機區塊 -->
+      <div class="transcript-card">
+        <div class="transcript-header">
+          <div class="terminal-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--text-muted);">
+            AI_PAIR_PROGRAMMING_TRANSCRIPT.md
+          </div>
+          <div style="display:flex;gap:0.5rem;">
+            <button class="btn btn-outline" id="copyAiTranscriptBtn" style="font-size:0.75rem;padding:0.35rem 0.75rem;">📋 一鍵複製完整對話</button>
+            <button class="btn btn-outline" id="downloadAiTranscriptBtn" style="font-size:0.75rem;padding:0.35rem 0.75rem;">📥 下載 .md 檔</button>
+          </div>
+        </div>
+
+        <div class="transcript-body">
+          <div class="chat-bubble chat-user">
+            <div class="chat-role-title">👤 使用者需求 (Prompt 1)</div>
+            <p>我是第四個測試的，完成以下報告內容，儀器介紹和心得感想給我留空間打字和上傳圖片<br>
+            報告內容:<br>
+            1. 儀器介紹。<br>
+            2. 原理介紹。<br>
+            3. 資料分析。<br>
+            4. 心得感想。<br>
+            5. 製作成互動式網頁並佈署於github pages上面。<br>
+            6. 作業要附上網頁連結與AI對話內容。</p>
+          </div>
+
+          <div class="chat-bubble chat-ai">
+            <div class="chat-role-title">🤖 AI 思考分析與原始檔案剖析</div>
+            <p>
+              1. 探勘工作區實測檔案：發現 <code>2026-1007_臺北市立大學折射實習紀錄紙.docx</code>、<code>202610_UTELS.pdf</code> 與 <code>seg2/104.dat</code>。<br>
+              2. 鎖定「第四個測試」：野外紀錄表中第 4 筆觀測明確記載檔案編號 <strong>104</strong>，炸點座標為 <strong>12 m</strong> (即第 7 頻道檢波器處)，全測線共 24 頻道，測距 0~46m，間距 2m。<br>
+              3. 解析 SEG-2 二進位檔：精準讀取 24 頻道微波取樣 (dt=0.25ms，長度 0.5s)，萃取初至時間，雙向傳播迴歸得直達波 V1 ≈ 358 m/s、折射波 V2 ≈ 780 m/s，求出地下深度 h ≈ 3.83 公尺。
+            </p>
+          </div>
+
+          <div class="chat-bubble chat-user">
+            <div class="chat-role-title">👤 使用者補充資訊 (Prompt 2)</div>
+            <p>幫我製作個網頁，我自己部屬上去<br>
+            我是第四個測試的，完成以下報告內容，儀器介紹和心得感想給我留空間打字和上傳圖片<br>
+            原理相關連結 https://oceanicdayi.github.io/2026_Utaipei_Geophysics_0909/seismic-inquiry/<br>
+            報告內容:<br>
+            1. 儀器介紹。<br>
+            2. 原理介紹。<br>
+            3. 資料分析。<br>
+            4. 心得感想。<br>
+            5. 製作成互動式網頁並佈署於github pages上面。<br>
+            6. 作業要附上網頁連結與AI對話內容。</p>
+          </div>
+
+          <div class="chat-bubble chat-ai">
+            <div class="chat-role-title">🤖 AI 完整系統規劃與實作完成</div>
+            <p>
+              1. 研讀課程網頁：依循「看不見的地下，怎麼知道？」科學建模六大探究步驟 (提出問題、設計觀測、取得證據、找出規律、建立模型、檢驗修正)。<br>
+              2. 原理模組化：整合司乃耳定律、臨界折射頭波形成、截距時間法與交錯距離法數學推導、盲層與低速帶限制。<br>
+              3. 第四測試數據量化：完整建立 24 道初至時間與理論走時對比表，提供松山層地質工程解讀。<br>
+              4. 互動視覺化實驗室：實作真實 24 道地震波形圖 (Wiggle Trace Variable Area)、T-X 走時擬合折線圖、地下二層速度剖面動態波線追蹤。<br>
+              5. 留空間打字與上傳圖片：儀器卡片支援即時打字與單元照片更換；心得感想支援富文本編輯與相片牆多圖上傳 (LocalStorage 自動保存)。<br>
+              6. GitHub Pages 部署指引與對話一鍵複製：提供無痛靜態部屬與繳交連結整合。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 頁尾宣告 -->
+  <footer class="site-footer">
+    <div style="max-width:900px;margin:0 auto;">
+      <p style="font-weight:700;color:var(--text-main);margin-bottom:0.5rem;">
+        臺北市立大學 · 地球物理探勘學實習報告 (Seismic Refraction Survey Report)
+      </p>
+      <p style="font-size:0.8rem;color:var(--text-dim);">
+        測線代碼：202610_UTELS ｜ 測試序號：Shot 104 (X = 12m) ｜ 儀器：OYO DAS-1 24-CH Seismograph ｜ 實習日期：2026年10月7日
+      </p>
+      <p style="font-size:0.75rem;color:var(--text-dim);margin-top:1rem;">
+        Powered by Modern Web Technologies (HTML5 / Vanilla CSS / JavaScript Canvas / LocalStorage). Ready for GitHub Pages deployment.
+      </p>
+    </div>
+  </footer>
+
+  <!-- 部署教學彈跳視窗 (Deploy Modal) -->
+  <div class="modal-overlay" id="deployModal">
+    <div class="modal-content">
+      <button class="modal-close-btn" id="closeModalBtn" title="關閉">✕</button>
+      <h3 style="font-size:1.4rem;color:var(--accent-cyan);margin-bottom:1rem;">
+        🚀 GitHub Pages 快速部署教學指南
+      </h3>
+      <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:1.25rem;">
+        本報告為純靜態架構（<code>index.html</code>, <code>style.css</code>, <code>app.js</code>, <code>data.js</code>, 圖片檔），完全不需要安裝 Node.js 或執行 Build 指令，直接上傳即可 100% 運作！
+      </p>
+
+      <div style="background:var(--bg-tertiary);padding:1.25rem;border-radius:var(--radius-md);margin-bottom:1rem;border:1px solid var(--border-color);">
+        <h4 style="color:var(--accent-emerald);margin-bottom:0.5rem;">方法一：GitHub 網頁直接拖曳上傳（最簡單，免裝任何軟體）</h4>
+        <ol style="padding-left:1.25rem;font-size:0.875rem;color:var(--text-muted);line-height:1.8;">
+          <li>登入 <a href="https://github.com" target="_blank" style="color:var(--accent-cyan);">GitHub.com</a>，點擊右上角「New」建立一個新的 Repository（例如命名為 <code>seismic-report</code>，設為 <strong>Public</strong>）。</li>
+          <li>在建立好的倉庫頁面，點擊「uploading an existing file」。</li>
+          <li>將資料夾內的所有檔案（<code>index.html</code>, <code>style.css</code>, <code>app.js</code>, <code>data.js</code>, 以及圖片檔）全部拖曳進去，點擊「Commit changes」。</li>
+          <li>點擊倉庫上方的「<strong>Settings</strong>」→ 左側「<strong>Pages</strong>」。</li>
+          <li>在「Branch」選取 <strong>main</strong>（或 master），資料夾選 <strong>/(root)</strong>，點擊「Save」。</li>
+          <li>稍等約 1 分鐘，重新整理頁面，即可看到綠色勾勾顯示您的專屬網址：<br>
+            <code style="color:var(--accent-amber);">https://&lt;您的帳號&gt;.github.io/seismic-report/</code>
+          </li>
+        </ol>
+      </div>
+
+      <div style="background:var(--bg-tertiary);padding:1.25rem;border-radius:var(--radius-md);border:1px solid var(--border-color);">
+        <h4 style="color:var(--accent-amber);margin-bottom:0.5rem;">方法二：使用 Git 指令終端機部署</h4>
+        <pre style="background:#000;padding:0.75rem;border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:0.8rem;color:#10b981;overflow-x:auto;">
+git init
+git add .
+git commit -m "Deploy seismic refraction report"
+git branch -M main
+git remote add origin https://github.com/&lt;您的帳號&gt;/&lt;倉庫名稱&gt;.git
+git push -u origin main
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 匯入資料與程式碼 -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    function exportTableToCSV() {
+      let csv = "Channel,Station_X_m,Offset_m,T_obs_ms,Wave_Type\n";
+      SHOT104_OBSERVED.forEach(r => {
+        csv += `${r.ch},${r.x},${r.offset},${r.t_obs},${r.type}\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'Shot104_FirstBreaks.csv';
+      a.click();
+      URL.revokeObjectURL(a.href);
+      showAutoSaveToast('已匯出 Shot 104 初至時間 CSV 檔案');
+    }
+  </script>
+</body>
+</html>
