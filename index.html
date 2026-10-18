@@ -340,19 +340,19 @@
         <div class="theory-pane" id="pane-snell">
           <h3 style="margin-bottom:0.75rem;color:var(--accent-cyan);">司乃耳定律 (Snell's Law) 與臨界角折射</h3>
           <p style="color:var(--text-muted);margin-bottom:1rem;">
-            地震波通過兩個速度相異的地層界面時，其入射角 $\theta_1$ 與折射角 $\theta_2$ 遵循波動光學之司乃耳定律：
+            地震波通過兩個速度相異的地層界面時，其入射角 theta_1 與折射角 \theta_2 遵循波動光學之司乃耳定律：
           </p>
           <div class="formula-card">
             <div class="formula-main">sin θ₁ / V₁ = sin θ₂ / V₂</div>
             <div class="formula-explain">其中 V₁ 為表層速度，V₂ 為下層高速介質速度（前提條件：V₂ > V₁）。</div>
           </div>
           <p style="color:var(--text-muted);margin-top:1rem;">
-            當入射角增大至某個特定角度時，折射角達到 90°（$\theta_2 = 90^\circ, \sin\theta_2 = 1$），此特定入射角即稱為<strong>臨界角 (Critical Angle, $\theta_c$)</strong>：
+            當入射角增大至某個特定角度時，折射角達到 90°theta_2 = 90^\circ, sin\theta_2 = 1，此特定入射角即稱為<strong>臨界角 (Critical Angle, theta_c)</strong>：
           </p>
           <div class="formula-card">
             <div class="formula-main">θ_c = arcsin(V₁ / V₂)</div>
             <div class="formula-explain">
-              當波以臨界角入射時，波將沿著地層界面以高速 V₂ 傳播，並在傳播過程中不斷以臨界角 $\theta_c$ 向地表輻射能量，形成<strong>頭波 (Head Wave / 側波)</strong>！這正是遠端受波器能夠比直達波更早接收到訊號的物理本質。
+              當波以臨界角入射時，波將沿著地層界面以高速 V₂ 傳播，並在傳播過程中不斷以臨界角 theta_c 向地表輻射能量，形成<strong>頭波 (Head Wave / 側波)</strong>！這正是遠端受波器能夠比直達波更早接收到訊號的物理本質。
             </div>
           </div>
         </div>
@@ -386,7 +386,7 @@
             <div style="font-weight:700;color:var(--accent-emerald);margin-bottom:0.25rem;">3. 截距時間法 (Intercept-Time Method) 地層深度公式</div>
             <div class="formula-main">h = (t_i / 2) · [ (V₁ · V₂) / √(V₂² - V₁²) ]</div>
             <div class="formula-explain">
-              其中截距時間 $t_i = 2h \cos(\theta_c) / V_1$。只要由走時曲線圖外推求得 $t_i$ 並由兩線斜率求出 $V_1$ 與 $V_2$，便能精確解出界面深度 $h$。
+              其中截距時間 t_i = 2h \cos(\theta_c) / V_1。只要由走時曲線圖外推求得 t_i 並由兩線斜率求出 V_1 與 V_2，便能精確解出界面深度 h。
             </div>
           </div>
 
@@ -466,7 +466,7 @@
             根據本測線分析所得之二層速度模型：
           </p>
           <ul style="padding-left:1.25rem;font-size:0.875rem;color:var(--text-muted);line-height:1.8;margin-top:0.5rem;">
-            <li><strong style="color:var(--accent-cyan);">第一層 ($V_1 \approx 358\text{ m/s}$, 厚度 $h \approx 3.83\text{ m}$)：</strong>對應校園表層人工整地回填土、植被草皮及未受壓密的乾燥砂質黏土層。因未飽和且孔隙大，P 波速度較低，為典型的淺部風化表土層。</li>
+            <li><strong style="color:var(--accent-cyan);">第一層 V_1 (m/s), 厚度 (m)：</strong>對應校園表層人工整地回填土、植被草皮及未受壓密的乾燥砂質黏土層。因未飽和且孔隙大，P 波速度較低，為典型的淺部風化表土層。</li>
             <li><strong style="color:var(--accent-amber);">第二層 ($V_2 \approx 780\text{ m/s}$)：</strong>對應臺北盆地上部全新世<strong>松山層 (Songshan Formation)</strong> 或早期沉積之緊密粉砂質黏土與地下水飽和礫石夾層。波速顯著躍升超過兩倍，顯示地盤承載力明顯提升。</li>
             <li><strong>工程應用意義：</strong>此 3.8 公尺之界面深具工程意涵，代表淺層基礎開挖或綠化覆土的有效風化層邊界。</li>
           </ul>
@@ -515,7 +515,7 @@
         <h2 class="section-title">🔬 互動實驗室：實測波形檢視與速度建模擬合器</h2>
         <p class="section-subtitle">
           此互動實驗室整合了 <strong>Shot 104 真實 24 頻道波形</strong>、<strong>走時曲線擬合圖</strong> 與 <strong>即時地下二層構造剖面</strong>。
-          您可以拖動右側面板的 $V_1, V_2, h$ 滑桿，即時觀察理論走時曲線與地下臨界射線的連動變化！
+          您可以拖動右側面板的滑桿，即時觀察理論走時曲線與地下臨界射線的連動變化！
         </p>
       </div>
 
@@ -661,7 +661,7 @@
 
           <h3 class="journal-subhead">二、 絕對時間錨定與 Trigger 機制</h3>
           <p>
-            敲擊瞬間，安裝於鐵鎚頭部的微動觸發開關（Trigger switch）受到接觸衝擊閉合，即時向 DAS-1 數位主機送出電脈衝，將敲擊時刻定義為絕對零點 $t = 0$。在課堂上這只是一個抽象的物理符號，但在現場看到螢幕上的 24 道波形以這瞬間為起點同步開始計時，真切感受到「沒有精確的時間基準，一切距離與走時計算皆無法成立」的科學真理。
+            敲擊瞬間，安裝於鐵鎚頭部的微動觸發開關（Trigger switch）受到接觸衝擊閉合，即時向 DAS-1 數位主機送出電脈衝，將敲擊時刻定義為絕對零點 t = 0。在課堂上這只是一個抽象的物理符號，但在現場看到螢幕上的 24 道波形以這瞬間為起點同步開始計時，真切感受到「沒有精確的時間基準，一切距離與走時計算皆無法成立」的科學真理。
           </p>
 
           <h3 class="journal-subhead">三、 野外環境雜訊排除與 Stacking（多次疊加）技術</h3>
@@ -671,12 +671,12 @@
 
           <h3 class="journal-subhead">四、 資料分析與地質速度建模印證</h3>
           <p>
-            回到室內進行 104.dat 資料處理時，將 24 道初至時間繪製成 T-X 走時曲線，直達波與臨界折射波的交錯特徵令人驚嘆！在近距離處波速為 $358\text{ m/s}$，如實反映了校園草坪鬆散、多孔隙之人工回填土層；而當距離超過 $14\text{ m}$ 後，折射波以 $780\text{ m/s}$ 的高速度反超成為初至波。透過截距時間法推算出第一層風化土厚度約 $3.83\text{ 公尺}$，與臺北盆地松山層表層工程地質條件完全吻合。
+            回到室內進行 104.dat 資料處理時，將 24 道初至時間繪製成 T-X 走時曲線，直達波與臨界折射波的交錯特徵令人驚嘆！在近距離處波速為 358m/s，如實反映了校園草坪鬆散、多孔隙之人工回填土層；而當距離超過 14m 後，折射波以 780m/s 的高速度反超成為初至波。透過截距時間法推算出第一層風化土厚度約 3.83公尺，與臺北盆地松山層表層工程地質條件完全吻合。
           </p>
 
           <h3 class="journal-subhead">五、 探究總結：看不見的地下，我們怎麼知道？</h3>
           <p>
-            整個實習不是單純的儀器操作，而是一場標準的科學建模歷程。我們雖然無法肉眼透視地底，但藉由「激發訊號 $\to$ 記錄到時 $\to$ 幾何走時擬合 $\to$ 解算地下速度與邊界」，以扎實的觀測證據建立起對未知的地下構造認知。這次實習將課本上的波動方程式化為手中震動的脈衝與具體數據，獲益良多！
+            整個實習不是單純的儀器操作，而是一場標準的科學建模歷程。我們雖然無法肉眼透視地底，但藉由「激發訊號 ⮕ 記錄到時 ⮕ 幾何走時擬合 ⮕ 解算地下速度與邊界」，以扎實的觀測證據建立起對未知的地下構造認知。這次實習將課本上的波動方程式化為手中震動的脈衝與具體數據，獲益良多！
           </p>
         </div>
       </div>
